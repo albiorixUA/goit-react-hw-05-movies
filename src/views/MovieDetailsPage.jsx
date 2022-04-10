@@ -5,6 +5,7 @@ import * as moviedbAPI from '../services/themoviedb-api';
 import PageHeading from 'components/PageHeading';
 import styled from 'styled-components';
 import Cast from './Cast';
+import Reviews from './Reviews';
 
 const Section = styled.div`
   display: flex;
@@ -32,15 +33,11 @@ export default function MovieDetailsPage() {
     moviedbAPI.fetchMovieDetails(movieId).then(setDetailsMovies);
   }, [movieId]);
 
-  //   const { original_title, overview, vote_average, poster_patch,genres } =
-  //     detailsMovies;
-
   return (
     <>
       {detailsMovies && (
         <main>
           <PageHeading text={`${detailsMovies.original_title}`} />
-
           <Section>
             <img
               src={`${BASEURLPICTURE}${detailsMovies.poster_path}`}
@@ -65,6 +62,7 @@ export default function MovieDetailsPage() {
       )}
       <Routes>
         <Route path="cast" element={<Cast id={movieId} />} />
+        <Route path="reviews" element={<Reviews id={movieId} />} />
       </Routes>
     </>
   );
