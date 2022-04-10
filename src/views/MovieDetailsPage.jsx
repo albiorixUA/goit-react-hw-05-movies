@@ -1,7 +1,26 @@
 import { useState, useEffect } from 'react';
+import { Route, Link, Routes } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import * as moviedbAPI from '../services/themoviedb-api';
 import PageHeading from 'components/PageHeading';
+import styled from 'styled-components';
+import Cast from './Cast';
+
+const Section = styled.div`
+  display: flex;
+  align-items: flex-start;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+`;
+
+const InfoContainer = styled.div`
+  margin-left: 10px;
+`;
+
+const GenresTitle = styled.p``;
 
 export default function MovieDetailsPage() {
   const [detailsMovies, setDetailsMovies] = useState(null);
@@ -13,17 +32,40 @@ export default function MovieDetailsPage() {
     moviedbAPI.fetchMovieDetails(movieId).then(setDetailsMovies);
   }, [movieId]);
 
-  //   const { original_title, overview, vote_average, poster_patch } =
+  //   const { original_title, overview, vote_average, poster_patch,genres } =
   //     detailsMovies;
 
   return (
     <>
       {detailsMovies && (
-        <PageHeading text={`${detailsMovies.original_title}`} />
+        <main>
+          <PageHeading text={`${detailsMovies.original_title}`} />
+
+          <Section>
+            <img
+              src={`${BASEURLPICTURE}${detailsMovies.poster_path}`}
+              alt={detailsMovies.original_title}
+            />
+            <InfoContainer>
+              <h2>Overview</h2>
+              <p>{detailsMovies.overview}</p>
+              <h3>Vote</h3>
+              <p>{detailsMovies.vote_average}</p>
+              <h3>Genres</h3>
+              <GenresTitle>
+                {detailsMovies.genres.map(({ name }) => name)}
+              </GenresTitle>
+            </InfoContainer>
+          </Section>
+          <p>Additional information</p>
+          <Link to="cast">Cast</Link>
+          <br />
+          <Link to="reviews">Reviews</Link>
+        </main>
       )}
-      {detailsMovies && (
-        <img src={`${BASEURLPICTURE}${detailsMovies.poster_path}`} alt="" />
-      )}
+      <Routes>
+        <Route path="cast" element={<Cast id={movieId} />} />
+      </Routes>
     </>
   );
 }

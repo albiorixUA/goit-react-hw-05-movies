@@ -10,7 +10,7 @@ export default function App() {
       <Appbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/movies/:movieId" element={<MovieDetailsPage />} />
+        <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </Container>

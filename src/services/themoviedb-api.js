@@ -26,7 +26,7 @@ export function fetchMovieDetails(id) {
 
 export function fetchMovieCredits(id) {
   return fetchWithErrorHandling(
-    `${BASEURL}movies/${id}/credits?api_key=${APIKEY}`
+    `${BASEURL}movie/${id}/credits?api_key=${APIKEY}`
   );
 }
 
