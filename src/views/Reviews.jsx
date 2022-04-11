@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import * as moviedbAPI from '../services/themoviedb-api';
-import styled from 'styled-components';
 
 export default function Reviews({ id }) {
   const [review, setReview] = useState(null);

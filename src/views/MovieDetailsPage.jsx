@@ -21,8 +21,6 @@ const InfoContainer = styled.div`
   margin-left: 10px;
 `;
 
-const GenresTitle = styled.p``;
-
 export default function MovieDetailsPage() {
   const [detailsMovies, setDetailsMovies] = useState(null);
   const { movieId } = useParams();
@@ -49,9 +47,7 @@ export default function MovieDetailsPage() {
               <h3>Vote</h3>
               <p>{detailsMovies.vote_average}</p>
               <h3>Genres</h3>
-              <GenresTitle>
-                {detailsMovies.genres.map(({ name }) => name)}
-              </GenresTitle>
+              <p>{detailsMovies.genres.map(({ name }) => `${name} `)}</p>
             </InfoContainer>
           </Section>
           <p>Additional information</p>
