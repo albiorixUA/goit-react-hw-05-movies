@@ -3,6 +3,7 @@ import Appbar from './AppBar';
 import Container from './Container';
 import HomePage from '../views/HomePage';
 import MovieDetailsPage from 'views/MovieDetailsPage';
+import SearchMovies from 'views/MoviePage';
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
       <Appbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/movies" element={<SearchMovies />} />
         <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>

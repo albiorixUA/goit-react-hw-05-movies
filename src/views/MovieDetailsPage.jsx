@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Route, Link, Routes } from 'react-router-dom';
+import { Route, Link, Routes, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import * as moviedbAPI from '../services/themoviedb-api';
 import PageHeading from 'components/PageHeading';
@@ -24,6 +24,7 @@ const InfoContainer = styled.div`
 export default function MovieDetailsPage() {
   const [detailsMovies, setDetailsMovies] = useState(null);
   const { movieId } = useParams();
+  const navigate = useNavigate();
 
   const BASEURLPICTURE = 'https://image.tmdb.org/t/p/original/';
 
@@ -31,10 +32,17 @@ export default function MovieDetailsPage() {
     moviedbAPI.fetchMovieDetails(movieId).then(setDetailsMovies);
   }, [movieId]);
 
+  const handleClick = () => {
+    navigate('/');
+  };
+
   return (
     <>
       {detailsMovies && (
         <main>
+          <button type="button" onClick={handleClick}>
+            Go back
+          </button>
           <PageHeading text={`${detailsMovies.original_title}`} />
           <Section>
             <img
