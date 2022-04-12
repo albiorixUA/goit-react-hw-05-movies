@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as moviedbAPI from '../services/themoviedb-api';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const CreditsPicture = styled.img`
   height: 10%;
@@ -24,20 +25,16 @@ export default function Cast({ id }) {
         <ul>
           {credits.cast.map(el => {
             const { id, profile_path, original_name, character } = el;
-            if (profile_path === null) {
-              return (
-                <li key={id}>
-                  <CreditsPicture src={defaultFoto} alt="" />
-                  <p>{original_name}</p>
-                  <p> Character: {character}</p>
-                </li>
-              );
-            }
+
             return (
               <li key={id}>
                 <CreditsPicture
-                  src={`${BASEURLPICTURE}${profile_path}`}
-                  alt=""
+                  src={
+                    profile_path !== null
+                      ? `${BASEURLPICTURE}${profile_path}`
+                      : defaultFoto
+                  }
+                  alt={original_name}
                 />
                 <p>{original_name}</p>
                 <p> Character: {character}</p>
@@ -49,3 +46,7 @@ export default function Cast({ id }) {
     </>
   );
 }
+
+Cast.propTypes = {
+  id: PropTypes.string.isRequired,
+};

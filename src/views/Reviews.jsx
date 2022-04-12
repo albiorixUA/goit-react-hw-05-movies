@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as moviedbAPI from '../services/themoviedb-api';
+import PropTypes from 'prop-types';
 
 export default function Reviews({ id }) {
   const [review, setReview] = useState(null);
@@ -28,3 +29,6 @@ export default function Reviews({ id }) {
     </>
   );
 }
+Reviews.propTypes = {
+  id: PropTypes.string.isRequired,
+};

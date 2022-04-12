@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Route, Link, Routes, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import * as moviedbAPI from '../services/themoviedb-api';
 import PageHeading from 'components/PageHeading';
 import styled from 'styled-components';
-import Cast from './Cast';
-import Reviews from './Reviews';
+
+const Cast = lazy(() => import('./Cast') /* webpackChunkName: "cast" */);
+const Reviews = lazy(
+  () => import('./Reviews') /* webpackChunkName: "reviews" */
+);
 
 const Section = styled.div`
   display: flex;
@@ -64,10 +67,12 @@ export default function MovieDetailsPage() {
           <Link to="reviews">Reviews</Link>
         </main>
       )}
-      <Routes>
-        <Route path="cast" element={<Cast id={movieId} />} />
-        <Route path="reviews" element={<Reviews id={movieId} />} />
-      </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="cast" element={<Cast id={movieId} />} />
+          <Route path="reviews" element={<Reviews id={movieId} />} />
+        </Routes>
+      </Suspense>
     </>
   );
 }
