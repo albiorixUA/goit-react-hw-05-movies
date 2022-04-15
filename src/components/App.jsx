@@ -1,33 +1,25 @@
 import { Route, Routes } from 'react-router-dom';
-import Appbar from './AppBar';
-import Container from './Container';
-import { lazy, Suspense } from 'react';
+import Container from './Layout';
+import { createAsyncView } from 'helpers';
 
-const HomePage = lazy(
-  () => import('../views/HomePage') /* webpackChunkName: "home-page" */
-);
-const MovieDetailsPage = lazy(
-  () =>
-    import(
-      'views/MovieDetailsPage'
-    ) /* webpackChunkName: "movie-details-page" */
-);
-const SearchMovies = lazy(
-  () => import('views/MoviePage') /* webpackChunkName: "search-movies */
-);
+const HomePage = createAsyncView('HomePage');
+const SearchMovies = createAsyncView('SearchMovies');
+const MovieDetailsPage = createAsyncView('MovieDetailsPage');
+const Cast = createAsyncView('Cast');
+const Reviews = createAsyncView('Reviews');
 
 export default function App() {
   return (
-    <Container fallback={<div>Loading...</div>}>
-      <Appbar />
-      <Suspense>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/movies" element={<SearchMovies />} />
-          <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
-          <Route path="*" element={<HomePage />} />
-        </Routes>
-      </Suspense>
-    </Container>
+    <Routes>
+      <Route path="/" element={<Container />}>
+        <Route index element={<HomePage />} />
+        <Route path="movies" element={<SearchMovies />} />
+        <Route path="movies/:movieId" element={<MovieDetailsPage />}>
+          <Route path="cast" element={<Cast />} />
+          <Route path="reviews" element={<Reviews />} />
+        </Route>
+        <Route path="*" element={<HomePage />} />
+      </Route>
+    </Routes>
   );
 }

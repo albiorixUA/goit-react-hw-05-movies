@@ -1,14 +1,10 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
-import { Route, Link, Routes, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import * as moviedbAPI from '../services/themoviedb-api';
 import PageHeading from 'components/PageHeading';
 import styled from 'styled-components';
-
-const Cast = lazy(() => import('./Cast') /* webpackChunkName: "cast" */);
-const Reviews = lazy(
-  () => import('./Reviews') /* webpackChunkName: "reviews" */
-);
+import { BASE_URL_PICTURE } from 'constatnts/urlPicture';
 
 const Section = styled.div`
   display: flex;
@@ -29,8 +25,6 @@ export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const navigate = useNavigate();
 
-  const BASEURLPICTURE = 'https://image.tmdb.org/t/p/original/';
-
   useEffect(() => {
     moviedbAPI.fetchMovieDetails(movieId).then(setDetailsMovies);
   }, [movieId]);
@@ -46,10 +40,10 @@ export default function MovieDetailsPage() {
           <button type="button" onClick={handleClick}>
             Go back
           </button>
-          <PageHeading text={`${detailsMovies.original_title}`} />
+          <PageHeading>{`${detailsMovies.original_title}`}</PageHeading>
           <Section>
             <img
-              src={`${BASEURLPICTURE}${detailsMovies.poster_path}`}
+              src={`${BASE_URL_PICTURE}${detailsMovies.poster_path}`}
               alt={detailsMovies.original_title}
             />
             <InfoContainer>
@@ -67,12 +61,7 @@ export default function MovieDetailsPage() {
           <Link to="reviews">Reviews</Link>
         </main>
       )}
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="cast" element={<Cast id={movieId} />} />
-          <Route path="reviews" element={<Reviews id={movieId} />} />
-        </Routes>
-      </Suspense>
+      <Outlet />
     </>
   );
 }

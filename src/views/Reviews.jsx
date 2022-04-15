@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import * as moviedbAPI from '../services/themoviedb-api';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
-export default function Reviews({ id }) {
+export default function Reviews() {
+  const { movieId } = useParams();
   const [review, setReview] = useState(null);
 
   useEffect(() => {
-    moviedbAPI.fetchMoviesReviews(id).then(({ results }) => setReview(results));
-  }, [id]);
+    moviedbAPI
+      .fetchMoviesReviews(movieId)
+      .then(({ results }) => setReview(results));
+  }, [movieId]);
 
   return (
     <>
@@ -29,6 +32,3 @@ export default function Reviews({ id }) {
     </>
   );
 }
-Reviews.propTypes = {
-  id: PropTypes.string.isRequired,
-};

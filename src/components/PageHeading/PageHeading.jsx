@@ -1,3 +1,5 @@
-export default function PageHeading({ text }) {
-  return <h1>{text}</h1>;
+import { Heading } from './PageHeading.styled';
+
+export default function PageHeading({ children }) {
+  return <Heading>{children}</Heading>;
 }

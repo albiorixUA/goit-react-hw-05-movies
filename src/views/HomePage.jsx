@@ -12,7 +12,7 @@ export default function HomePage() {
 
   return (
     <>
-      <PageHeading text="Trending today" />
+      <PageHeading>Trending today </PageHeading>
       {movies && (
         <ul>
           {movies.map(m => (
