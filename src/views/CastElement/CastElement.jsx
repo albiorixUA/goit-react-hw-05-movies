@@ -1,7 +1,7 @@
 import { BASE_URL_PICTURE, DEFAUL_FOTO } from 'constatnts/urlPicture';
 import { CreditsPicture } from './Cast.styled';
 
-export const CastElement = ({ cast }) => {
+export default function CastElement({ cast }) {
   return (
     <ul>
       {cast.map(el => {
@@ -23,4 +23,4 @@ export const CastElement = ({ cast }) => {
       })}
     </ul>
   );
-};
+}

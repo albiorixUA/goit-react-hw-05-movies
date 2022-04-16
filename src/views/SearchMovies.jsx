@@ -1,24 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import * as moviedbAPI from '../services/themoviedb-api';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as yup from 'yup';
+import SearchMoviesForm from './SearchMoviesForm';
 
 export default function SearchMovies() {
   const [movie, setMovie] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const initialValues = {
-    name: '',
-  };
-
-  const schema = yup.object().shape({
-    name: yup
-      .string()
-      .min(2, 'Must be longer than 2 characters')
-      .required('Required'),
-  });
-
   const searchQuery = searchParams.get('query');
 
   const handleSubmit = (values, { resetForm }) => {
@@ -38,21 +25,7 @@ export default function SearchMovies() {
 
   return (
     <div>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={schema}
-      >
-        <Form>
-          <Field
-            name="name"
-            type="text"
-            placeholder="Enter a film title"
-          ></Field>
-          <ErrorMessage name="name" />
-          <button type="submit">Search</button>
-        </Form>
-      </Formik>
+      {<SearchMoviesForm onSubmit={handleSubmit} />}
       {movie && (
         <ul>
           {movie.map(m => (
