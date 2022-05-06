@@ -23,11 +23,10 @@ export default function SearchMovies() {
       .then(({ results }) => setMovie(results));
   }, [searchQuery]);
 
-  console.log(movie);
   return (
     <div>
       {<SearchMoviesForm onSubmit={handleSubmit} />}
-      {movie.length > 0 ? (
+      {movie && movie.length > 0 && (
         <ul>
           {movie.map(m => (
             <li key={m.id}>
@@ -35,7 +34,8 @@ export default function SearchMovies() {
             </li>
           ))}
         </ul>
-      ) : (
+      )}
+      {movie && movie.length === 0 && (
         <p>
           We will not find anything on your request. Please change the request
           and try again
